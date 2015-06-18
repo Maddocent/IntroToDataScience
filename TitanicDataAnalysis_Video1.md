@@ -61,7 +61,7 @@ library(ggplot2)
 
 ## Hypothesis - Rich folks survived at a higer rate
 train$pclass <- as.factor(train$pclass)
-ggplot(train, aes(x = pclass, fill = factor(survived))) +
+ggplot(train, aes(x = pclass, fill = factor(Survived))) +
   geom_histogram(width = 0.5) +
   xlab("Pclass") +
   ylab("Total Count") +
@@ -69,20 +69,20 @@ ggplot(train, aes(x = pclass, fill = factor(survived))) +
 
 
 ## Examine the first few names in the training data set
-head(as.character(train$name))
+head(as.character(train$Name))
 
 
 ## How many unique names are there across both train & test?
-length(unique(as.character(data.combined$name)))
+length(unique(as.character(data.combined$Name)))
 
 
 # Two duplicate names, take a closer look
 # First, get the duplicate names and store them as a vector
-dup.names <- as.character(data.combined[which(duplicated(as.character(data.combined$name))), "name"])
+dup.names <- as.character(data.combined[which(duplicated(as.character(data.combined$Name))), "Name"])
 
 
 ## Next, take a look at the records in the combined data set
-data.combined[which(data.combined$name %in% dup.names),]
+data.combined[which(data.combined$Name %in% dup.names),]
 
 
 ## What is up with the 'Miss.' and 'Mr.' thing?
@@ -90,18 +90,23 @@ library(stringr)
 
 
 ## Any correlation with other variables (e.g., sibsp)?
-misses <- data.combined[which(str_detect(data.combined$name, "Miss.")),]
+misses <- data.combined[which(str_detect(data.combined$Name, "Miss.")),]
 misses[1:5,]
 
 
 ## Hypothesis - Name titles correlate with age
-mrses <- data.combined[which(str_detect(data.combined$name, "Mrs.")), ]
+mrses <- data.combined[which(str_detect(data.combined$Name, "Mrs.")), ]
 mrses[1:5,]
 
 
 ## Check out males to see if pattern continues
-males <- data.combined[which(train$sex == "male"), ]
+males <- data.combined[which(train$Sex == "male"), ]
 males[1:5,]
+
+## the above line holds an error, we want to extract the males from the data.combined data frame the code that has to be used:
+males <- data.combined[which(data.combined$Sex == "male"), ]
+males[1:5,]
+
 
 
 ## Expand upon the realtionship between `Survived` and `Pclass` by adding the new `Title` variable to the
