@@ -131,12 +131,24 @@ for (i in 1:nrow(data.combined)) {
 }
 data.combined$title <- as.factor(titles)
 
+##Change the name of the variable "title" tot "Title"
+# install and load package plyr
+
+library(plyr)
+#use rename command
+
+data.combined <- rename(data.combined, c(title="Title"))
+
+#load ggplot2 to make a graph
+
+library(ggplot2)
+
 
 ## Since we only have survived lables for the train set, only use the
 ## first 891 rows
-ggplot(data.combined[1:891,], aes(x = title, fill = survived)) +
+ggplot(data.combined[1:891,], aes(x = Title, fill = Survived)) +
   geom_bar(binwidth = 0.5) +
-  facet_wrap(~pclass) + 
+  facet_wrap(~Pclass) + 
   ggtitle("Pclass") +
   xlab("Title") +
   ylab("Total Count") +
