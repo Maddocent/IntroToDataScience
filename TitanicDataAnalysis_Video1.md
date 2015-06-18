@@ -42,12 +42,12 @@ data.combined <- rbind(train, test.survived)
 #A A bit about R data types (e.g., factors)
 str(data.combined)
 
-data.combined$survived <- as.factor(data.combined$survived)
-data.combined$pclass <- as.factor(data.combined$pclass)
+data.combined$Survived <- as.factor(data.combined$Survived)
+data.combined$Pclass <- as.factor(data.combined$Pclass)
 
 
 ## Take a look at gross survival rates
-table(data.combined$survived)
+table(data.combined$Survived)
 
 
 ## Distribution across classes
