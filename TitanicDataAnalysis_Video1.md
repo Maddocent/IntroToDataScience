@@ -51,12 +51,13 @@ table(data.combined$Survived)
 
 
 ## Distribution across classes
-table(data.combined$pclass)
+table(data.combined$Pclass)
 
 
 ## Load up ggplot2 package to use for visualizations
 library(ggplot2)
 
+### To install package use: package install in the right lower box in Rstudio, install dependencies
 
 ## Hypothesis - Rich folks survived at a higer rate
 train$pclass <- as.factor(train$pclass)
