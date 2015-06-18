@@ -1,5 +1,4 @@
-## Marc Teunis Edited this File on 18-06-2015: Use of Uppercase and lowercase in R code causes erros if you are using in 
-the current Dataframes from Kaggle/Titanic
+## Marc Teunis Edited this File on 18-06-2015: Use of Uppercase and lowercase in R code causes erros if you are using the current Dataframes from Kaggle/Titanic
 
 ## Copyright 2012 Dave Langer
 
