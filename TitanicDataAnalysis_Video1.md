@@ -1,69 +1,65 @@
-# Marc Teunis Edited this File on 18-06-2015: Use of Uppercase and lowercase in R code causes erros if you are using in 
+## Marc Teunis Edited this File on 18-06-2015: Use of Uppercase and lowercase in R code causes erros if you are using in 
 the current Dataframes from Kaggle/Titanic
 
-# Copyright 2012 Dave Langer
-#    
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-# 
-#  	http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# 
+## Copyright 2012 Dave Langer
+
+### Licensed under the Apache License, Version 2.0 (the "License");
+### you may not use this file except in compliance with the License.
+### You may obtain a copy of the License at
+ 
+###  	http://www.apache.org/licenses/LICENSE-2.0
+
+### Unless required by applicable law or agreed to in writing, software
+### distributed under the License is distributed on an "AS IS" BASIS,
+### WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+### See the License for the specific language governing permissions and
+### limitations under the License.
+
+## This R source code file corresponds to video 1 of the YouTube series
+### "Introduction to Data Science with R" located at the following URL:
+##     http://www.youtube.com/watch?v=32o0DnuRjfg
 
 
 
-#
-# This R source code file corresponds to video 1 of the YouTube series
-# "Introduction to Data Science with R" located at the following URL:
-#     http://www.youtube.com/watch?v=32o0DnuRjfg
-#
 
-
-
-# Load raw data
+## Load raw data
 train <- read.csv("train.csv", header = TRUE)
 test <- read.csv("test.csv", header = TRUE)
 
-# Add a "Survived" variable to the test set to allow for combining data sets
+## Add a "Survived" variable to the test set to allow for combining data sets
 test.survived <- data.frame(Survived = rep("None", nrow(test)), test[,])
 
-# the order of the colomns between the two dat frames  "test.survided" and "train" are not the same: 
+## the order of the colomns between the two data frames  "test.survided" and "train" are not the same: 
 This line of code changes the order of the first two colomns in the data frame "test.survided"
 After running this line the order will be: Passengerid, Survived,...,... as it is in the "train" dataframe 
-the following line corrects the error. 
+the following line corrects the error that would otherwise arise. 
 
 test.survived <- test.survived[c(2,1,3,4,5,6,7,8,9,10,11,12)]
 
 
-# Combine data sets
+## Combine data sets
 data.combined <- rbind(train, test.survived)
 
-# A bit about R data types (e.g., factors)
+#A A bit about R data types (e.g., factors)
 str(data.combined)
 
 data.combined$survived <- as.factor(data.combined$survived)
 data.combined$pclass <- as.factor(data.combined$pclass)
 
 
-# Take a look at gross survival rates
+## Take a look at gross survival rates
 table(data.combined$survived)
 
 
-# Distribution across classes
+## Distribution across classes
 table(data.combined$pclass)
 
 
-# Load up ggplot2 package to use for visualizations
+## Load up ggplot2 package to use for visualizations
 library(ggplot2)
 
 
-# Hypothesis - Rich folks survived at a higer rate
+## Hypothesis - Rich folks survived at a higer rate
 train$pclass <- as.factor(train$pclass)
 ggplot(train, aes(x = pclass, fill = factor(survived))) +
   geom_histogram(width = 0.5) +
@@ -72,11 +68,11 @@ ggplot(train, aes(x = pclass, fill = factor(survived))) +
   labs(fill = "Survived") 
 
 
-# Examine the first few names in the training data set
+## Examine the first few names in the training data set
 head(as.character(train$name))
 
 
-# How many unique names are there across both train & test?
+## How many unique names are there across both train & test?
 length(unique(as.character(data.combined$name)))
 
 
@@ -85,34 +81,34 @@ length(unique(as.character(data.combined$name)))
 dup.names <- as.character(data.combined[which(duplicated(as.character(data.combined$name))), "name"])
 
 
-# Next, take a look at the records in the combined data set
+## Next, take a look at the records in the combined data set
 data.combined[which(data.combined$name %in% dup.names),]
 
 
-# What is up with the 'Miss.' and 'Mr.' thing?
+## What is up with the 'Miss.' and 'Mr.' thing?
 library(stringr)
 
 
-# Any correlation with other variables (e.g., sibsp)?
+## Any correlation with other variables (e.g., sibsp)?
 misses <- data.combined[which(str_detect(data.combined$name, "Miss.")),]
 misses[1:5,]
 
 
-# Hypothesis - Name titles correlate with age
+## Hypothesis - Name titles correlate with age
 mrses <- data.combined[which(str_detect(data.combined$name, "Mrs.")), ]
 mrses[1:5,]
 
 
-# Check out males to see if pattern continues
+## Check out males to see if pattern continues
 males <- data.combined[which(train$sex == "male"), ]
 males[1:5,]
 
 
-# Expand upon the realtionship between `Survived` and `Pclass` by adding the new `Title` variable to the
-# data set and then explore a potential 3-dimensional relationship.
+## Expand upon the realtionship between `Survived` and `Pclass` by adding the new `Title` variable to the
+## data set and then explore a potential 3-dimensional relationship.
 
-# Create a utility function to help with title extraction
-# NOTE - Using the grep function here, but could have used the str_detect function as well.
+## Create a utility function to help with title extraction
+## NOTE - Using the grep function here, but could have used the str_detect function as well.
 extractTitle <- function(name) {
   name <- as.character(name)
   
@@ -130,7 +126,7 @@ extractTitle <- function(name) {
 }
 
 
-# NOTE - The code below uses a for loop which is not a very R way of
+## NOTE - The code below uses a for loop which is not a very R way of
 #        doing things
 titles <- NULL
 for (i in 1:nrow(data.combined)) {
@@ -139,8 +135,8 @@ for (i in 1:nrow(data.combined)) {
 data.combined$title <- as.factor(titles)
 
 
-# Since we only have survived lables for the train set, only use the
-# first 891 rows
+## Since we only have survived lables for the train set, only use the
+## first 891 rows
 ggplot(data.combined[1:891,], aes(x = title, fill = survived)) +
   geom_bar(binwidth = 0.5) +
   facet_wrap(~pclass) + 
