@@ -1,4 +1,6 @@
-#
+# Marc Teunis Edited this File on 18-06-2015: Use of Uppercase and lowercase in R code causes erros if you are using in 
+the current Dataframes from Kaggle/Titanic
+
 # Copyright 2012 Dave Langer
 #    
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +31,15 @@ train <- read.csv("train.csv", header = TRUE)
 test <- read.csv("test.csv", header = TRUE)
 
 # Add a "Survived" variable to the test set to allow for combining data sets
-test.survived <- data.frame(survived = rep("None", nrow(test)), test[,])
+test.survived <- data.frame(Survived = rep("None", nrow(test)), test[,])
+
+# the order of the colomns between the two dat frames  "test.survided" and "train" are not the same: 
+This line of code changes the order of the first two colomns in the data frame "test.survided"
+After running this line the order will be: Passengerid, Survived,...,... as it is in the "train" dataframe 
+the following line corrects the error. 
+
+test.survived <- test.survived[c(2,1,3,4,5,6,7,8,9,10,11,12)]
+
 
 # Combine data sets
 data.combined <- rbind(train, test.survived)
